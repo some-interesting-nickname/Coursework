@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User registration</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+</head>
+<body>
+
+    <form name="userReg">
+        <div><b>Registration</b></div>
+        <div class="mar10-tb"><label> Login&nbsp&nbsp&nbsp</label>
+            <input name="userRegUsername" size="30"></div>
+        <div class="mar10-tb"><label>Password&nbsp&nbsp&nbsp&nbsp <input type="password" size="30" name="userRegPassword"></label></div>
+        <div class="mar10-tb"><label>Confirm password&nbsp&nbsp&nbsp&nbsp <input type="password" size="30" name="userPasswordConf"></label></div>
+        <div class="mar10-tb"><label>Favorite food&nbsp&nbsp&nbsp&nbsp <input size="30" type="text" name="userFood"></label></div>
+        <div><button type="submit" id="userReg_send">OK</button></div>
+    </form>
+    <script>
+        var i = 0;
+        $( document ).ready(function() {
+            $("#userReg_send").click(
+                function(){
+                    let obj = {
+                        "jsonrpc": "2.0",
+                        "method": "userReg",
+                        "params": {
+                            "username": document.forms.userReg.userRegUsername.value,
+                            "password": document.forms.userReg.userRegPassword.value,
+                            "confirm_password": document.forms.userReg.userPasswordConf.value,
+                            "food": document.forms.userReg.userFood.value
+                        },
+                        "id": i
+                    }
+                    i++;
+                    let myJson = JSON.stringify(obj);
+                    $.ajax({
+                        type: 'POST',
+                        url: 'index.php',
+                        data: myJson,
+                        cache: false,
+                        contentType: 'application/json',
+                        success: function(data){
+                            window.location.href = "inside_user.php?"+data;
+                        },
+                        error:function(data){
+                            alert('User already exist');
+                        }
+                    });
+                    return false;
+                }
+            );
+        });
+
+
+
+    </script>
+</body>
+</html>

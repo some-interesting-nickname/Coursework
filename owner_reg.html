@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+</head>
+<body>
+
+<form name="ownerReg">
+    <div><b>Registration</b></div>
+    <div class="mar10-tb"><label> Login&nbsp&nbsp&nbsp</label>
+        <input name="ownerRegUsername" size="30"></div>
+    <div class="mar10-tb"><label>Password&nbsp&nbsp&nbsp&nbsp <input type="password" size="30" name="ownerRegPassword"></label></div>
+    <div class="mar10-tb"><label>Confirm password&nbsp&nbsp&nbsp&nbsp <input type="password" size="30" name="ownerPasswordConf"></label></div>
+    <div class="mar10-tb"><label>Favorite food&nbsp&nbsp&nbsp&nbsp <input size="30" type="text" name="ownerFood"></label></div>
+    <div><button type="submit" id="ownerReg_send">OK</button></div>
+</form>
+<script>
+    var i = 0;
+    $( document ).ready(function() {
+        $("#ownerReg_send").click(
+            function(){
+                let obj = {
+                    "jsonrpc": "2.0",
+                    "method": "ownerReg",
+                    "params": {
+                        "username": document.forms.ownerReg.ownerRegUsername.value,
+                        "password": document.forms.ownerReg.ownerRegPassword.value,
+                        "confirm_password": document.forms.ownerReg.ownerPasswordConf.value,
+                        "food": document.forms.ownerReg.ownerFood.value
+                    },
+                    "id": i
+                }
+                i++;
+                let myJson = JSON.stringify(obj);
+                $.ajax({
+                    type: 'POST',
+                    url: 'index.php',
+                    data: myJson,
+                    cache: false,
+                    contentType: 'application/json',
+                    success: function(data){
+                        alert(data);
+                    },
+                    error:function(data){
+                        alert('User already exist');
+                    }
+                });
+                return false;
+            }
+        );
+    });
+
+
+
+</script>
+</body>
+</html>
